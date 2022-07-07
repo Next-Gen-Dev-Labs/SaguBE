@@ -2,11 +2,13 @@ import { Router } from 'express';
 import {
   handshakeValidator,
   nativeSigninValidator,
+  setPasswordValidator,
   signupValidator,
   web3SigninValidator,
 } from './middleware';
 import controller from './controllers';
-const { handshake, signin } = controller;
+const { handshake, signin, miscellanous } = controller;
+const { setPasswaord } = miscellanous;
 
 /**
  *
@@ -34,3 +36,11 @@ authRouter.post('/signup/generic', [signupValidator, controller.signup]);
 authRouter.post('/handshake/signin', [handshakeValidator, handshake.signin]);
 authRouter.post('/signin/web3', [web3SigninValidator, signin.web3]);
 authRouter.post('/signin/native', [nativeSigninValidator, signin.native]);
+
+/**
+ *
+ * Miscellanous
+ *
+ */
+
+authRouter.post('/misc/set-password', [setPasswordValidator, setPasswaord]);
