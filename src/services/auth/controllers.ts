@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { apiResponse } from '../../commons';
-import { Signup as signup, Signin as signin } from './services';
+import { Signup as signup, Signin as signin, miscellanous } from './services';
 
 export default {
   async signup(req: Request, res: Response, next: NextFunction) {
@@ -80,6 +80,24 @@ export default {
           status: 200,
           message: 'signin successful',
           data,
+        });
+      } catch (error) {
+        next(error);
+      }
+    },
+  },
+
+  miscellanous: {
+    async setPasswaord(req: Request, res: Response, next: NextFunction) {
+      try {
+        const payload = req.body;
+        const message = await miscellanous.setPassword(payload);
+
+        apiResponse({
+          res,
+          status: 201,
+          message,
+          data: [],
         });
       } catch (error) {
         next(error);
