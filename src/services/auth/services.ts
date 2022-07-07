@@ -3,7 +3,7 @@ import { recoverPersonalSignature } from '@metamask/eth-sig-util';
 import { userModel, IUser } from '../../models';
 import { BaseError, signToken } from '../../commons';
 import { hash } from 'bcryptjs';
-import { META_SIGN_MESSAGE, SALT } from '../../config';
+import { META_SIGN_MESSAGE, NONCE_FACTOR, SALT } from '../../config';
 import { HydratedDocument } from 'mongoose';
 
 export const Signup = {
@@ -38,7 +38,7 @@ export const Signup = {
 
     await userModel.create({
       ...data,
-      nonce: Math.floor(Math.random() * 100_000),
+      nonce: Math.floor(Math.random() * NONCE_FACTOR),
     });
 
     const user = await userModel
@@ -120,7 +120,8 @@ export const Signin = {
       const { walletAddress, signature } = params;
       const user = await userModel
         .findOne({ walletAddress })
-        .select('-password');
+        .select('-password')
+        .lean();
 
       if (!user) {
         throw new BaseError({
@@ -142,8 +143,13 @@ export const Signin = {
         });
       }
 
+      await userModel.updateOne(
+        { walletAddress },
+        { nonce: Math.floor(Math.random() * NONCE_FACTOR) }
+      );
+
       const accessToken = await signToken({ id: String(user._id) });
-      return { accessToken, user };
+      return { accessToken, user: { ...user, nonce: undefined } };
     },
   },
 };
