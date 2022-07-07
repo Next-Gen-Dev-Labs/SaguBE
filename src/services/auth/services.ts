@@ -2,8 +2,7 @@ import { bufferToHex } from 'ethereumjs-util';
 import { recoverPersonalSignature } from '@metamask/eth-sig-util';
 import { userModel, IUser } from '../../models';
 import { BaseError, signToken } from '../../commons';
-import { hash } from 'bcryptjs';
-import { META_SIGN_MESSAGE, NONCE_FACTOR, SALT } from '../../config';
+import { META_SIGN_MESSAGE, NONCE_FACTOR } from '../../config';
 
 export const Signup = {
   async genric(params: { data: IUser }) {
@@ -31,10 +30,6 @@ export const Signup = {
       });
     }
 
-    data['password'] = data['password']
-      ? await hash(data['password'], SALT)
-      : undefined;
-
     await userModel.create({
       ...data,
       nonce: Math.floor(Math.random() * NONCE_FACTOR),
@@ -42,7 +37,7 @@ export const Signup = {
 
     const user = await userModel
       .findOne({ walletAddress: data['walletAddress'] })
-      .select('-nonce -password');
+      .select('-nonce');
     return { user };
   },
 
@@ -84,10 +79,7 @@ export const Signin = {
 
     async authenticate(params: { walletAddress: string; signature: string }) {
       const { walletAddress, signature } = params;
-      const user = await userModel
-        .findOne({ walletAddress })
-        .select('-password')
-        .lean();
+      const user = await userModel.findOne({ walletAddress }).lean();
 
       if (!user) {
         throw new BaseError({
