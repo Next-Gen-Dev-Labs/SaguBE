@@ -3,7 +3,7 @@ import { recoverPersonalSignature } from '@metamask/eth-sig-util';
 import { userModel, IUser } from '../../models';
 import { BaseError, signToken } from '../../commons';
 import { hash } from 'bcryptjs';
-import { META_SIGN_MESSAGE } from '../../config';
+import { META_SIGN_MESSAGE, SALT } from '../../config';
 import { HydratedDocument } from 'mongoose';
 
 export const Signup = {
@@ -33,7 +33,7 @@ export const Signup = {
     }
 
     data['password'] = data['password']
-      ? await hash(data['password'], 10)
+      ? await hash(data['password'], SALT)
       : undefined;
 
     await userModel.create({
@@ -145,5 +145,32 @@ export const Signin = {
       const accessToken = await signToken({ id: String(user._id) });
       return { accessToken, user };
     },
+  },
+};
+
+export const miscellanous = {
+  async setPassword(params: { email: string; password: string }) {
+    const { email, password } = params;
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      throw new BaseError({
+        status: 400,
+        message: 'The email provided did not match any user in the database!',
+      });
+    }
+
+    if (user.password) {
+      throw new BaseError({
+        status: 403,
+        message: 'Password already set!',
+      });
+    }
+
+    const hashed = await hash(password, SALT);
+    user.password = hashed;
+    await user.save();
+
+    return `User with email: ${email} has set their password.`;
   },
 };
