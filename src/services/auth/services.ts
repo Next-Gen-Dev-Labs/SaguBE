@@ -9,11 +9,11 @@ export const Signup = {
     const { data } = params;
 
     const existingUser = {
+      email: await userModel.findOne({ email: data['email'] }),
+      username: await userModel.findOne({ username: data['username'] }),
       walletAddress: await userModel.findOne({
         walletAddress: data['walletAddress'],
       }),
-
-      email: await userModel.findOne({ email: data['email'] }),
     };
 
     if (existingUser['walletAddress']) {
@@ -27,6 +27,13 @@ export const Signup = {
       throw new BaseError({
         status: 403,
         message: 'Forbidden! A user with this email already exists!',
+      });
+    }
+
+    if (existingUser['username']) {
+      throw new BaseError({
+        status: 403,
+        message: 'Forbidden! A user with this username already exists!',
       });
     }
 
