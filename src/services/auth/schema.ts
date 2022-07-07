@@ -81,3 +81,18 @@ export const web3SigninSchema = z.object({
     required_error: 'No value received for signature, signature is required.',
   }),
 });
+
+export const miscellanous = {
+  setPasswordSchema: z.object({
+    email: string({
+      required_error: 'No value received for email, email is required.',
+    }).email({ message: 'email is not properly formatted.' }),
+
+    password: string({
+      required_error: 'No value received for password, password is required.',
+    }).refine((val: string) => parsePassword(val), {
+      message:
+        'Password format is incorrect! Password must be minimum of 8 characters, contain at least one uppercase, lowercase and special character.',
+    }),
+  }),
+};
