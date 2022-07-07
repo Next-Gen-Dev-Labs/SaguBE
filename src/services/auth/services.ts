@@ -120,7 +120,7 @@ export const Signin = {
       const { walletAddress, signature } = params;
       const user = await userModel
         .findOne({ walletAddress })
-        .select('-nonce -password');
+        .select('-password');
 
       if (!user) {
         throw new BaseError({
