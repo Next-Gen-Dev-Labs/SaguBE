@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import {
   signupSchema,
   handshakeSchema,
-  nativeSigninSchema,
   web3SigninSchema,
   miscellanous,
 } from './schema';
@@ -28,19 +27,6 @@ export async function handshakeValidator(
 ) {
   try {
     await handshakeSchema.parseAsync(req.body);
-    next();
-  } catch (error) {
-    next(error);
-  }
-}
-
-export async function nativeSigninValidator(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
-    await nativeSigninSchema.parseAsync(req.body);
     next();
   } catch (error) {
     next(error);

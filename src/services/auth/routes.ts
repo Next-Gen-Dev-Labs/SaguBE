@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import {
   handshakeValidator,
-  nativeSigninValidator,
   setPasswordValidator,
   signupValidator,
   web3SigninValidator,
@@ -35,7 +34,6 @@ authRouter.post('/signup/generic', [signupValidator, controller.signup]);
 
 authRouter.post('/handshake/signin', [handshakeValidator, handshake.signin]);
 authRouter.post('/signin/web3', [web3SigninValidator, signin.web3]);
-authRouter.post('/signin/native', [nativeSigninValidator, signin.native]);
 
 /**
  *

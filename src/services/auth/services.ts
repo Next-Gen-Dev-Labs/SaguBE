@@ -66,39 +66,6 @@ export const Signup = {
 };
 
 export const Signin = {
-  async native(params: { email: string; password: string }) {
-    const { email, password } = params;
-    const user = await userModel.findOne({ email });
-
-    if (!user) {
-      throw new BaseError({
-        status: 401,
-        message: 'email is incorrect!',
-        name: 'AuthError',
-      });
-    }
-
-    const isMatch = await user.comparePassword({ password });
-
-    if (!isMatch) {
-      throw new BaseError({
-        status: 401,
-        message: 'password is incorrect!',
-        name: 'AuthError',
-      });
-    }
-
-    const accessToken = await signToken({ id: String(user._id) });
-    const returnedUser = <HydratedDocument<IUser>>(
-      await userModel.findOne({ email }).select('-nonce -password')
-    );
-
-    return {
-      accessToken,
-      user: returnedUser,
-    };
-  },
-
   async oauth2() {},
 
   web3: {

@@ -54,22 +54,6 @@ export default {
   },
 
   signin: {
-    async native(req: Request, res: Response, next: NextFunction) {
-      try {
-        const payload = req.body;
-        const data = await signin.native(payload);
-
-        apiResponse({
-          res,
-          status: 200,
-          message: 'signin successful',
-          data,
-        });
-      } catch (error) {
-        next(error);
-      }
-    },
-
     async web3(req: Request, res: Response, next: NextFunction) {
       try {
         const payload = req.body;
