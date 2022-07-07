@@ -4,7 +4,6 @@ import { userModel, IUser } from '../../models';
 import { BaseError, signToken } from '../../commons';
 import { hash } from 'bcryptjs';
 import { META_SIGN_MESSAGE, NONCE_FACTOR, SALT } from '../../config';
-import { HydratedDocument } from 'mongoose';
 
 export const Signup = {
   async genric(params: { data: IUser }) {
@@ -118,32 +117,5 @@ export const Signin = {
       const accessToken = await signToken({ id: String(user._id) });
       return { accessToken, user: { ...user, nonce: undefined } };
     },
-  },
-};
-
-export const miscellanous = {
-  async setPassword(params: { email: string; password: string }) {
-    const { email, password } = params;
-    const user = await userModel.findOne({ email });
-
-    if (!user) {
-      throw new BaseError({
-        status: 400,
-        message: 'The email provided did not match any user in the database!',
-      });
-    }
-
-    if (user.password) {
-      throw new BaseError({
-        status: 403,
-        message: 'Password already set!',
-      });
-    }
-
-    const hashed = await hash(password, SALT);
-    user.password = hashed;
-    await user.save();
-
-    return `User with email: ${email} has set their password.`;
   },
 };
