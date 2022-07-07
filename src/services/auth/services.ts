@@ -7,6 +7,7 @@ import { META_SIGN_MESSAGE, NONCE_FACTOR } from '../../config';
 export const Signup = {
   async genric(params: { data: IUser }) {
     const { data } = params;
+    data['username'] = data['username'].toLowerCase();
 
     const existingUser = {
       email: await userModel.findOne({ email: data['email'] }),
