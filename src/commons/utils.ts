@@ -9,17 +9,6 @@ export function parseWalletAddress(val: string) {
   return true;
 }
 
-export function parsePassword(val: string) {
-  if (!val) return false;
-  const valid =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#!%*?&])[A-Za-z\d@$#!%*?&]{8,}$/.test(
-      val
-    );
-
-  if (!valid) return false;
-  return true;
-}
-
 export function parseUsername(val: string) {
   if (!val) return false;
   const valid = val.split('').includes(' ');

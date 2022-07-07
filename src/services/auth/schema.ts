@@ -1,9 +1,5 @@
 import { z, string } from 'zod';
-import {
-  parseWalletAddress,
-  parsePassword,
-  parseUsername,
-} from '../../commons';
+import { parseWalletAddress, parseUsername } from '../../commons';
 
 export const signupSchema = z.object({
   orgName: string({
@@ -36,13 +32,6 @@ export const signupSchema = z.object({
   bio: string({})
     .max(100, {
       message: 'bio cannot be longer than 100 characters.',
-    })
-    .optional(),
-
-  password: string({})
-    .refine((val: string) => parsePassword(val), {
-      message:
-        'Password format is incorrect! Password must be minimum of 8 characters, contain at least one uppercase, lowercase and special character.',
     })
     .optional(),
 });
