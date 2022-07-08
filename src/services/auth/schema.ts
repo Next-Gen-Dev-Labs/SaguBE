@@ -19,7 +19,7 @@ export const signupSchema = z.object({
     .max(30, { message: 'username cannot be longer than 30 characters.' })
     .refine((val: string) => parseUsername(val), {
       message:
-        'username is not properly formatted. no spaces allowed in username.',
+        'username is not properly formatted. username cannot start with a number, contain special characters and/or spaces.',
     }),
 
   walletAddress: string({
