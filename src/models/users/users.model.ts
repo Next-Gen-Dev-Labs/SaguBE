@@ -1,4 +1,4 @@
-import { Schema, Model, model } from 'mongoose';
+import { Schema, Model, model, Types } from 'mongoose';
 
 /**
  *
@@ -15,11 +15,20 @@ export interface IUser {
   nonce?: number;
 }
 
+export interface ISocial {
+  facebook: string;
+  twitter: string;
+  instagram?: string;
+  linkedIn?: string;
+  organization: Types.ObjectId;
+}
+
 type UserModel = Model<IUser, {}, {}>;
+type SocialModel = Model<ISocial, {}, {}>;
 
 /**
  *
- * Users Model with pre hook and instance methods
+ * Users Model
  *
  */
 
@@ -36,3 +45,22 @@ const userSchema = new Schema<IUser, UserModel>(
 );
 
 export const userModel = model<IUser, UserModel>('User', userSchema);
+
+/**
+ *
+ * Socials Model
+ *
+ */
+
+const socialSchema = new Schema<ISocial, SocialModel>(
+  {
+    facebook: { type: String, required: true },
+    twitter: { type: String, required: true },
+    instagram: { type: String, required: false },
+    linkedIn: { type: String, required: false },
+    organization: { type: Schema.Types.ObjectId, ref: 'User' },
+  },
+  { timestamps: true }
+);
+
+export const socialModel = model<ISocial, SocialModel>('Social', socialSchema);
