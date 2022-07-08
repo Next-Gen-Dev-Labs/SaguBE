@@ -38,3 +38,47 @@ export function parseUrl(val: string) {
     return false;
   }
 }
+
+export function parseFacebook(val: string) {
+  if (!val) return false;
+
+  const hostname = new URL(val).hostname;
+
+  return hostname.toLowerCase() === 'facebook.com' ||
+    hostname.toLowerCase() === 'www.facebook.com'
+    ? true
+    : false;
+}
+
+export function parseTwitter(val: string) {
+  if (!val) return false;
+
+  const hostname = new URL(val).hostname;
+
+  return hostname.toLowerCase() === 'twitter.com' ||
+    hostname.toLowerCase() === 'www.twitter.com'
+    ? true
+    : false;
+}
+
+export function parseInstagram(val: string) {
+  if (!val) return false;
+
+  const hostname = new URL(val).hostname;
+
+  return hostname.toLowerCase() === 'instagram.com' ||
+    hostname.toLowerCase() === 'www.instagram.com'
+    ? true
+    : false;
+}
+
+export function parseLinkedin(val: string) {
+  if (!val) return false;
+
+  const hostname = new URL(val).hostname;
+
+  return hostname.toLowerCase() === 'linkedin.com' ||
+    hostname.toLowerCase() === 'www.linkedin.com'
+    ? true
+    : false;
+}
