@@ -1,6 +1,6 @@
 import { bufferToHex } from 'ethereumjs-util';
 import { recoverPersonalSignature } from '@metamask/eth-sig-util';
-import { userModel, IUser } from '../../models';
+import { userModel, IUser, ISocial, socialModel } from '../../models';
 import { BaseError, signToken } from '../../commons';
 import { META_SIGN_MESSAGE, NONCE_FACTOR } from '../../config';
 
@@ -47,6 +47,29 @@ export const Signup = {
       .findOne({ walletAddress: data['walletAddress'] })
       .select('-nonce');
     return { user };
+  },
+
+  async addSocials(params: ISocial) {
+    const { organization } = params;
+
+    const org = await userModel.findById(organization);
+    if (!org) {
+      throw new BaseError({
+        status: 403,
+        message: 'No organazation found using the provided org id.',
+      });
+    }
+
+    const existingSocials = await socialModel.findOne({ organization });
+    if (existingSocials) {
+      throw new BaseError({
+        status: 403,
+        message: 'Forbidden! This user has already set their social links.',
+      });
+    }
+
+    const socials = await socialModel.create(params);
+    return { socials };
   },
 
   async handshake(params: { walletAddress: string }) {
