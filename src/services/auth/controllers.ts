@@ -19,6 +19,22 @@ export default {
     }
   },
 
+  async addSocials(req: Request, res: Response, next: NextFunction) {
+    try {
+      const payload = { ...req.body };
+      const data = await signup.addSocials(payload);
+
+      apiResponse({
+        res,
+        status: 201,
+        message: 'social links added',
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
   handshake: {
     async signup(req: Request, res: Response, next: NextFunction) {
       try {
