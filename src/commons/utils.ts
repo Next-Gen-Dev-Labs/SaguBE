@@ -11,10 +11,7 @@ export function parseWalletAddress(val: string) {
 
 export function parseUsername(val: string) {
   if (!val) return false;
-  const valid = val.split('').includes(' ');
-
-  if (valid) return false;
-  return true;
+  return /^[a-z][a-z0-9]+$/.test(val);
 }
 
 export function apiResponse(params: {
