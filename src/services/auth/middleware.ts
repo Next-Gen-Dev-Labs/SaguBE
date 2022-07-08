@@ -1,5 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { signupSchema, handshakeSchema, web3SigninSchema } from './schema';
+import {
+  signupSchema,
+  handshakeSchema,
+  web3SigninSchema,
+  socialsSchema,
+} from './schema';
 
 export async function signupValidator(
   req: Request,
@@ -34,6 +39,19 @@ export async function web3SigninValidator(
 ) {
   try {
     await web3SigninSchema.parseAsync(req.body);
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function socialsValidator(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    await socialsSchema.parseAsync(req.body);
     next();
   } catch (error) {
     next(error);
