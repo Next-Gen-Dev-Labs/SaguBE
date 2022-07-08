@@ -28,3 +28,13 @@ export function apiResponse(params: {
     data: Array.isArray(data) ? data : [data],
   });
 }
+
+export function parseUrl(val: string) {
+  if (!val) return false;
+  try {
+    new URL(val);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
