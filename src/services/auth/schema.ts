@@ -42,6 +42,24 @@ export const signupSchema = z.object({
       message: 'bio cannot be longer than 100 characters.',
     })
     .optional(),
+
+  images: z
+    .object({
+      banner: string({
+        required_error:
+          'No value received for images.banner, images.banner is required.',
+      }).refine((val: string) => parseUrl(val), {
+        message: 'The url for images.banner is not properly formatted!',
+      }),
+
+      profile: string({
+        required_error:
+          'No value received for images.profile, images.profile is required.',
+      }).refine((val: string) => parseUrl(val), {
+        message: 'The url for images.profile is not properly formatted!',
+      }),
+    })
+    .required(),
 });
 
 export const handshakeSchema = z.object({
