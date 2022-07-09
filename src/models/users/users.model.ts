@@ -13,6 +13,10 @@ export interface IUser {
   walletAddress: string;
   bio?: string;
   nonce?: number;
+  images: {
+    banner: string;
+    profile: string;
+  };
 }
 
 export interface ISocial {
@@ -40,6 +44,10 @@ const userSchema = new Schema<IUser, UserModel>(
     walletAddress: { type: String, required: true },
     bio: { type: String, required: false },
     nonce: { type: Number, required: false },
+    images: {
+      banner: { type: String, required: true },
+      profile: { type: String, required: true },
+    },
   },
   { timestamps: true }
 );
