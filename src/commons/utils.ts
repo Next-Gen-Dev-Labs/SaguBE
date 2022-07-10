@@ -1,5 +1,6 @@
 import { isValidAddress } from 'ethereumjs-util';
-import { Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
+import { BaseError } from './errors';
 
 export function parseWalletAddress(val: string) {
   if (!val) return false;
@@ -81,4 +82,32 @@ export function parseLinkedin(val: string) {
     hostname.toLowerCase() === 'www.linkedin.com'
     ? true
     : false;
+}
+
+export function validateContentType(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const contentType = req.headers['content-type'];
+
+    if (!contentType) {
+      throw new BaseError({
+        status: 400,
+        message: 'No content-type header set!',
+      });
+    }
+
+    if (contentType.toLowerCase() !== 'application/json') {
+      throw new BaseError({
+        status: 400,
+        message: 'Content-Type header is not set to application/json!',
+      });
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
 }
