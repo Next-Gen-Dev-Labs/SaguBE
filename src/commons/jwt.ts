@@ -1,11 +1,4 @@
-import {
-  jwt_secret,
-  jwt_refresh,
-  JWT_EXPIRATION,
-  JWT_REFRESH_EXPIRATION,
-} from '../config';
-
-import { BaseError } from '../commons';
+import { jwt_secret, JWT_EXPIRATION } from '../config';
 import jwt from 'jsonwebtoken';
 
 interface IDecoded {
@@ -33,25 +26,9 @@ export async function signToken(params: { id: string }): Promise<string> {
 
 export async function decodeToken(params: {
   token: string;
-  type: 'normal' | 'refresh';
 }): Promise<IDecoded> {
-  let secretToUse: string;
   return new Promise((resolve, reject) => {
-    if (params['type'] === 'normal') {
-      secretToUse = jwt_secret;
-    } else if (params['type'] === 'refresh') {
-      secretToUse = jwt_refresh;
-    } else {
-      reject(
-        new BaseError({
-          status: 400,
-          message: 'Invalid token type',
-          name: 'TokenError',
-        })
-      );
-    }
-
-    jwt.verify(params['token'], secretToUse, (err, decoded) => {
+    jwt.verify(params['token'], jwt_secret, (err, decoded) => {
       if (err) {
         reject(err);
       } else {
@@ -60,3 +37,12 @@ export async function decodeToken(params: {
     });
   });
 }
+
+async function run() {
+  const token = await signToken({ id: 'uryyeueu' });
+  const decoded = await decodeToken({ token });
+
+  return { token, decoded };
+}
+
+run().then((val) => console.log(val));
