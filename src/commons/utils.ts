@@ -1,6 +1,7 @@
 import { isValidAddress } from 'ethereumjs-util';
 import { Request, Response, NextFunction } from 'express';
 import { BaseError } from './errors';
+import { decodeToken } from './jwt';
 
 export function parseWalletAddress(val: string) {
   if (!val) return false;
@@ -110,4 +111,44 @@ export function validateContentType(
   } catch (error) {
     next(error);
   }
+}
+
+export async function verifyToken(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const token = handleAuthHeader({
+      authHeader: { authorization: req.headers['authorization'] },
+    });
+
+    const decoded = await decodeToken({ token });
+    req.decoded = { id: decoded.id };
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+function handleAuthHeader(params: {
+  authHeader: { authorization: string | undefined } | undefined;
+}) {
+  const { authHeader } = params;
+  if (!authHeader) {
+    throw new BaseError({
+      status: 400,
+      message: 'No authorization header set!',
+    });
+  }
+
+  if (!authHeader.authorization) {
+    throw new BaseError({
+      status: 400,
+      message: 'Authorization header has no value!',
+    });
+  }
+
+  return authHeader['authorization'].split(' ')[1];
 }
