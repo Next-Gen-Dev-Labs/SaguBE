@@ -37,12 +37,3 @@ export async function decodeToken(params: {
     });
   });
 }
-
-async function run() {
-  const token = await signToken({ id: 'uryyeueu' });
-  const decoded = await decodeToken({ token });
-
-  return { token, decoded };
-}
-
-run().then((val) => console.log(val));
