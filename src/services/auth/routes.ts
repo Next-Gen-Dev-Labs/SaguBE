@@ -6,6 +6,7 @@ import {
   web3SigninValidator,
 } from './middleware';
 import controller from './controllers';
+import { validateContentType } from '../../commons';
 const { handshake, signin } = controller;
 
 /**
@@ -15,6 +16,7 @@ const { handshake, signin } = controller;
  */
 
 export const authRouter: Router = Router();
+authRouter.use(validateContentType);
 
 /**
  *
