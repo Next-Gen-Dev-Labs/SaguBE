@@ -68,6 +68,53 @@ export const Signup = {
       });
     }
 
+    const duplicate = {
+      fb: await socialModel.findOne({ facebook: params['facebook'] }),
+      tw: await socialModel.findOne({ twitter: params['twitter'] }),
+    };
+
+    if (duplicate.fb) {
+      throw new BaseError({
+        status: 400,
+        message: 'This facebook social link is already in use by another user!',
+      });
+    }
+
+    if (duplicate.tw) {
+      throw new BaseError({
+        status: 400,
+        message: 'This twitter social link is already in use by another user!',
+      });
+    }
+
+    if (params.linkedIn) {
+      const duplicate = await socialModel.findOne({
+        linkedIn: params['linkedIn'],
+      });
+
+      if (duplicate) {
+        throw new BaseError({
+          status: 400,
+          message:
+            'This linkedin social link is already in use by another user!',
+        });
+      }
+    }
+
+    if (params.instagram) {
+      const duplicate = await socialModel.findOne({
+        instagram: params['instagram'],
+      });
+
+      if (duplicate) {
+        throw new BaseError({
+          status: 400,
+          message:
+            'This instagram social link is already in use by another user!',
+        });
+      }
+    }
+
     const socials = await socialModel.create(params);
     return { socials };
   },
