@@ -11,7 +11,7 @@ export interface IEvents {
   desc: string;
   category: Events_Category;
   type: Events_Type;
-  price: number | null;
+  price?: number;
   image: string;
   datetime: string;
   orgId: Types.ObjectId;
