@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 
 /**
  *
@@ -14,6 +14,7 @@ export interface IEvents {
   price: number | null;
   image: string;
   datetime: string;
+  orgId: Types.ObjectId;
 }
 
 export enum Events_Category {
@@ -49,6 +50,7 @@ const schema = new Schema<IEvents>(
     price: { type: Number, required: false },
     image: { type: String, required: true },
     datetime: { type: String, required: true },
+    orgId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }
 );
