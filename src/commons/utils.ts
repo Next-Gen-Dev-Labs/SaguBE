@@ -1,5 +1,6 @@
 import { isValidAddress } from 'ethereumjs-util';
 import { Request, Response, NextFunction } from 'express';
+import { Events_Category, Events_Type } from '../models';
 import { BaseError } from './errors';
 import { decodeToken } from './jwt';
 
@@ -83,6 +84,34 @@ export function parseLinkedin(val: string) {
     hostname.toLowerCase() === 'www.linkedin.com'
     ? true
     : false;
+}
+
+export function parseEventCategory(val: string) {
+  if (!val) return false;
+
+  if (val === Events_Category.finance || val === Events_Category.tech)
+    return true;
+
+  return false;
+}
+
+export function parseEventType(val: string) {
+  if (!val) return false;
+
+  if (val === Events_Type.free || val === Events_Type.paid) return true;
+
+  return false;
+}
+
+export function parseDate(val: string) {
+  if (!val) return false;
+
+  try {
+    new Date(val).toISOString();
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
 
 export function validateContentType(
