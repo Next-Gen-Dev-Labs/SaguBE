@@ -13,6 +13,7 @@ export interface IEvents {
   type: Events_Type;
   price?: number;
   image: string;
+  venue: string;
   datetime: string;
   orgId: Types.ObjectId;
 }
@@ -49,6 +50,7 @@ const schema = new Schema<IEvents>(
     },
     price: { type: Number, required: false },
     image: { type: String, required: true },
+    venue: { type: String, required: true },
     datetime: { type: String, required: true },
     orgId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
