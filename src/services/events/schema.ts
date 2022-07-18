@@ -30,7 +30,7 @@ export default {
 
     type: string({
       required_error: 'No value received for type, type is required.',
-    }).refine((val: string) => parseEventCategory(val), {
+    }).refine((val: string) => parseEventType(val), {
       message: "Invalid value for type! only 'free' or 'paid' is allowed.",
     }),
 
