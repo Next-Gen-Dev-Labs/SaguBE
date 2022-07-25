@@ -67,12 +67,45 @@ export default {
     });
 
     const totalNumOfEvents = await eventModel.count();
-    const events = await eventModel.find(
-      { orgId: '62c90cf0dc081e9fd7a1d8bc' },
-      {},
-      { skip: paginators.skip, limit: paginators.limit }
-    );
+    const events = await eventModel.find({}, {}, { ...paginators });
 
     return { events, totalNumOfEvents };
+  },
+
+  /**
+   *
+   * Get all events by a user
+   *
+   */
+
+  async getEventsByUser(params: {
+    username: string;
+    skip?: string;
+    limit?: string;
+  }) {
+    const { username, skip, limit } = params;
+    const user = await userModel.findOne({ username });
+
+    if (!user) {
+      throw new BaseError({
+        status: 403,
+        message: 'Could not find a user with the given username',
+      });
+    }
+
+    const paginators = refinePaginators({
+      skip: <string>skip,
+      limit: <string>limit,
+    });
+
+    const totalNumOfEvents = await eventModel.count();
+    const totalNumOfEventsByUser = await eventModel.count({ orgId: user._id });
+
+    const events = await eventModel.find(
+      { orgId: user._id },
+      {},
+      { ...paginators }
+    );
+    return { events, totalNumOfEventsByUser, totalNumOfEvents };
   },
 };
