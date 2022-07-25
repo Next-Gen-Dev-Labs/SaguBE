@@ -181,3 +181,25 @@ function handleAuthHeader(params: {
 
   return authHeader['authorization'].split(' ')[1];
 }
+
+export function refinePaginators(params: { skip: string; limit: string }) {
+  const { limit, skip } = params;
+
+  if (Number.parseInt(limit) === NaN) {
+    throw new BaseError({
+      status: 400,
+      message:
+        'Invalid value received for limit. limit, if present, must be an integer',
+    });
+  }
+
+  if (Number.parseInt(skip) === NaN) {
+    throw new BaseError({
+      status: 400,
+      message:
+        'Invalid value received for skip. skip, if present, must be an integer',
+    });
+  }
+
+  return { skip: +skip, limit: +limit };
+}
