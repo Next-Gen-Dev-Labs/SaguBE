@@ -47,4 +47,27 @@ export default {
       next(error);
     }
   },
+
+  /**
+   *
+   * List all events by a user
+   *
+   */
+
+  async getEventsByUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const username = req.params.username;
+      const query = req.query;
+
+      const data = await services.getEventsByUser({ ...query, username });
+      apiResponse({
+        res,
+        status: 200,
+        message: 'List of events',
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
