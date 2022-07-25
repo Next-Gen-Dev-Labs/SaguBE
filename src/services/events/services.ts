@@ -1,4 +1,4 @@
-import { BaseError } from '../../commons';
+import { BaseError, refinePaginators } from '../../commons';
 import { eventModel, userModel, IEvents, Events_Type } from '../../models';
 
 export default {
@@ -50,5 +50,29 @@ export default {
 
     const event = await eventModel.create(params);
     return event;
+  },
+
+  /**
+   *
+   * Get all events
+   *
+   */
+
+  async getEvents(params: { skip?: string; limit?: string }) {
+    const { skip, limit } = params;
+
+    const paginators = refinePaginators({
+      skip: <string>skip,
+      limit: <string>limit,
+    });
+
+    const totalNumOfEvents = await eventModel.count();
+    const events = await eventModel.find(
+      { orgId: '62c90cf0dc081e9fd7a1d8bc' },
+      {},
+      { skip: paginators.skip, limit: paginators.limit }
+    );
+
+    return { events, totalNumOfEvents };
   },
 };
