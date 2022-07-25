@@ -7,6 +7,14 @@ export const eventRouter: Router = Router();
 
 /**
  *
+ * Unprotected (GET) routes
+ *
+ */
+
+eventRouter.get('/list', controller.getEvents);
+
+/**
+ *
  * General middleware
  *
  */
