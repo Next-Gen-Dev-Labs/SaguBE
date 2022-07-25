@@ -25,4 +25,26 @@ export default {
       next(error);
     }
   },
+
+  /**
+   *
+   * list all events
+   *
+   */
+
+  async getEvents(req: Request, res: Response, next: NextFunction) {
+    try {
+      const query = req.query;
+      const data = await services.getEvents(query);
+
+      apiResponse({
+        res,
+        status: 200,
+        message: 'List of events',
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
