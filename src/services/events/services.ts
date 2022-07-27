@@ -48,7 +48,10 @@ export default {
       });
     }
 
-    const event = await eventModel.create(params);
+    const event = await eventModel.create({
+      ...params,
+      creatorName: user.username,
+    });
     return event;
   },
 
