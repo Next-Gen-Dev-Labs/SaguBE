@@ -111,4 +111,37 @@ export default {
     );
     return { events, totalNumOfEventsByUser, totalNumOfEvents };
   },
+
+  /**
+   *
+   * Get an event (by events title) by a user
+   *
+   */
+
+  async getEvent(params: { username: string; eventName: string }) {
+    const { username, eventName } = params;
+
+    const user = await userModel.findOne({ username });
+    if (!user) {
+      throw new BaseError({
+        status: 400,
+        message: 'Could not find a user with the given username',
+      });
+    }
+
+    const event = await eventModel.findOne({
+      name: eventName,
+      creatorName: username,
+    });
+
+    if (!event) {
+      throw new BaseError({
+        status: 404,
+        message:
+          'Could not find an event with the given eventName and username',
+      });
+    }
+
+    return { event };
+  },
 };
