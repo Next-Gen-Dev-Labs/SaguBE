@@ -13,6 +13,10 @@ export const eventRouter: Router = Router();
 
 eventRouter.get('/list', controller.getEvents);
 eventRouter.get('/list/:username', controller.getEventsByUser);
+eventRouter.get('/get/:username/:eventName', [
+  middleware.getEvent,
+  controller.getEvent,
+]);
 
 /**
  *
