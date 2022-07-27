@@ -4,6 +4,7 @@ import {
   parseEventCategory,
   parseEventType,
   parseUrl,
+  parseUsername,
 } from '../../commons';
 export default {
   /**
@@ -56,4 +57,26 @@ export default {
       message: 'Invalid date value received for datetime!',
     }),
   }).strict(),
+
+  /**
+   *
+   * getEvent
+   *
+   */
+
+  getEvent: object({
+    username: string({
+      required_error: 'No value received for username, username is required.',
+    })
+      .min(3, { message: 'username cannot be less than 3 characters' })
+      .max(30, { message: 'username cannot be longer than 30 characters.' })
+      .refine((val: string) => parseUsername(val), {
+        message:
+          'username is not properly formatted. username cannot start with a number, contain special characters and/or spaces.',
+      }),
+
+    eventName: string({
+      required_error: 'No value received for eventName, eventName is required.',
+    }).nonempty({ message: 'empty string received! name cannot be empty.' }),
+  }),
 };
