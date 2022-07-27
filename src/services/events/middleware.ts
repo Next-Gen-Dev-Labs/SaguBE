@@ -16,4 +16,19 @@ export default {
       next(error);
     }
   },
+
+  /**
+   *
+   * getEvent
+   *
+   */
+
+  async getEvent(req: Request, res: Response, next: NextFunction) {
+    try {
+      await schema.getEvent.parseAsync(req.params);
+      next();
+    } catch (error) {
+      next(error);
+    }
+  },
 };
