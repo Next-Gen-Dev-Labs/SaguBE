@@ -16,6 +16,7 @@ export interface IEvents {
   venue: string;
   datetime: string;
   orgId: Types.ObjectId;
+  creatorName: string;
 }
 
 export enum Events_Category {
@@ -52,6 +53,7 @@ const schema = new Schema<IEvents>(
     image: { type: String, required: true },
     venue: { type: String, required: true },
     datetime: { type: String, required: true },
+    creatorName: { type: String, required: true },
     orgId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }
