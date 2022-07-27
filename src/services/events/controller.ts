@@ -70,4 +70,29 @@ export default {
       next(error);
     }
   },
+
+  /**
+   *
+   * getEvent by a user using the user's userName and eventName
+   *
+   */
+
+  async getEvent(req: Request, res: Response, next: NextFunction) {
+    try {
+      const payload = req.params;
+      const data = await services.getEvent({
+        username: payload.username,
+        eventName: payload.eventName,
+      });
+
+      apiResponse({
+        res,
+        status: 200,
+        message: 'Event',
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
