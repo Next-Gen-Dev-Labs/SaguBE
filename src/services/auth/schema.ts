@@ -87,42 +87,44 @@ export const web3SigninSchema = z.object({
 export const socialsSchema = z.object({
   facebook: string({
     required_error: 'No value received for facebook, facebook is required.',
-  })
-    .refine((val: string) => parseUrl(val), {
-      message: 'The url for facebook is not properly formatted.',
-    })
-    .refine((val: string) => parseFacebook(val), {
-      message: 'invalid url for facebook, please input a proper facebook url.',
-    }),
+  }),
+  // .refine((val: string) => parseUrl(val), {
+  //   message: 'The url for facebook is not properly formatted.',
+  // })
+  // .refine((val: string) => parseFacebook(val), {
+  //   message: 'invalid url for facebook, please input a proper facebook url.',
+  // }),
 
   twitter: string({
     required_error: 'No value received for twitter, twitter is required.',
-  })
-    .refine((val: string) => parseUrl(val), {
-      message: 'The url for twitter is not properly formatted.',
-    })
-    .refine((val: string) => parseTwitter(val), {
-      message: 'invalid url for twitter, please input a proper twitter url.',
-    }),
+  }),
+  // .refine((val: string) => parseUrl(val), {
+  //   message: 'The url for twitter is not properly formatted.',
+  // })
+  // .refine((val: string) => parseTwitter(val), {
+  //   message: 'invalid url for twitter, please input a proper twitter url.',
+  // }),
 
   instagram: string()
-    .refine((val: string) => parseUrl(val), {
-      message: 'The url for instagram is not properly formatted.',
-    })
-    .refine((val: string) => parseInstagram(val), {
-      message:
-        'invalid url for instagram, please input a proper instagram url.',
-    })
+    // .refine((val: string) => parseUrl(val), {
+    //   message: 'The url for instagram is not properly formatted.',
+    // })
+    // .refine((val: string) => parseInstagram(val), {
+    //   message:
+    //     'invalid url for instagram, please input a proper instagram url.',
+    // })
     .optional(),
 
   linkedin: string()
-    .refine((val: string) => parseUrl(val), {
-      message: 'The url for linkedin is not properly formatted.',
-    })
-    .refine((val: string) => parseLinkedin(val), {
-      message: 'invalid url for linkedin, please input a proper linkedin url.',
-    })
+    // .refine((val: string) => parseUrl(val), {
+    //   message: 'The url for linkedin is not properly formatted.',
+    // })
+    // .refine((val: string) => parseLinkedin(val), {
+    //   message: 'invalid url for linkedin, please input a proper linkedin url.',
+    // })
     .optional(),
+
+  discord: string().optional(),
 
   organization: string({
     required_error:
