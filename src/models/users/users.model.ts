@@ -24,6 +24,7 @@ export interface ISocial {
   twitter: string;
   instagram?: string;
   linkedIn?: string;
+  discord?: string;
   organization: Types.ObjectId;
 }
 
@@ -66,6 +67,7 @@ const socialSchema = new Schema<ISocial, SocialModel>(
     twitter: { type: String, required: true },
     instagram: { type: String, required: false },
     linkedIn: { type: String, required: false },
+    discord: { type: String, required: false },
     organization: { type: Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true }
