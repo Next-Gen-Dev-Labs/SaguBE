@@ -7,3 +7,5 @@ export const NONCE_FACTOR = 100_000;
 export const JWT_EXPIRATION = '3h';
 
 export const JWT_REFRESH_EXPIRATION = '4320h';
+
+export const PINATA_BASE_URL = 'https://api.pinata.cloud';
