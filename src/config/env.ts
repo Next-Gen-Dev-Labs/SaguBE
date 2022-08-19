@@ -20,3 +20,5 @@ export const morgan_mode = <string>(env === 'production' ? 'combined' : 'dev');
 export const jwt_secret = <string>process.env.JWT_SECRET;
 
 export const jwt_refresh = <string>process.env.JWT_REFRESH;
+
+export const pinata_jwt = <string>process.env.PINATA_JWT;
