@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { Events_Category, Events_Type } from '../models';
 import { BaseError } from './errors';
 import { decodeToken } from './jwt';
+import axios, { AxiosError } from 'axios';
 
 export function parseWalletAddress(val: string) {
   if (!val) return false;
@@ -202,4 +203,37 @@ export function refinePaginators(params: { skip: string; limit: string }) {
   }
 
   return { skip: +skip, limit: +limit };
+}
+
+export async function postData(params: {
+  url: string;
+  headers: any;
+  data: any;
+}) {
+  try {
+    const { url, headers, data } = params;
+
+    const config = {
+      method: 'post',
+      url,
+      headers: { ...headers, 'Content-Type': 'application/json' },
+      data,
+    };
+
+    const res = await axios(config);
+    return res.data;
+  } catch (error: any) {
+    const err = <AxiosError<any>>error;
+
+    const extraDetails = err.response?.data.error;
+    const status = +(<number>err?.response?.status);
+
+    throw new BaseError({
+      status,
+      message:
+        'Stuff happened with the internal http client, notify the backend',
+      name: 'HTTPClientError',
+      extraDetails,
+    });
+  }
 }
