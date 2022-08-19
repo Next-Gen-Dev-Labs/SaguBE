@@ -29,7 +29,7 @@ export default {
       required_error: 'You did not provide a value for fee, fee is required.',
     })
       .nonnegative({ message: 'fee cannot be negative' })
-      .nullable(),
+      .optional(),
 
     type: nativeEnum(TicketType),
 
