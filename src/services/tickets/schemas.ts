@@ -27,8 +27,12 @@ export default {
 
     fee: number().nonnegative({ message: 'fee cannot be negative' }).optional(),
 
+    price: number()
+      .nonnegative({ message: 'price cannot be negative' })
+      .optional(),
+
     type: nativeEnum(TicketType),
 
     category: nativeEnum(TicketCategory),
-  }),
+  }).strict(),
 };
