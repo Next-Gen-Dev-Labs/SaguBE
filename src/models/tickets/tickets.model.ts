@@ -9,7 +9,8 @@ import { model, Schema, Types } from 'mongoose';
 export interface ITickets {
   name: string;
   desc: string;
-  fee?: number | null;
+  fee?: number;
+  price?: number | null;
   coverImage: string;
   type: TicketType;
   category: TicketCategory;
@@ -38,7 +39,8 @@ const schema = new Schema<ITickets>(
   {
     name: { type: String, required: true },
     desc: { type: String, required: true },
-    fee: { type: Number, required: false, default: null },
+    fee: { type: Number, required: false, default: 100 },
+    price: { type: Number, required: false, default: null },
     coverImage: { type: String, required: true },
     type: {
       type: String,
