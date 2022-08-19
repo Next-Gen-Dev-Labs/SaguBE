@@ -25,11 +25,7 @@ export default {
       message: 'Invalid url received for coverImage',
     }),
 
-    fee: number({
-      required_error: 'You did not provide a value for fee, fee is required.',
-    })
-      .nonnegative({ message: 'fee cannot be negative' })
-      .optional(),
+    fee: number().nonnegative({ message: 'fee cannot be negative' }).optional(),
 
     type: nativeEnum(TicketType),
 
