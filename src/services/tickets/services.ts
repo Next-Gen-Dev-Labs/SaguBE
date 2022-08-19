@@ -1,5 +1,6 @@
 import { userModel, ticketsModel, ITickets, TicketType } from '../../models';
-import { BaseError } from '../../commons';
+import { BaseError, postData } from '../../commons';
+import { PINATA_BASE_URL, pinata_jwt } from '../../config';
 
 export default {
   /**
@@ -11,7 +12,7 @@ export default {
   async createTicketRecord(params: ITickets) {
     const { creatorId, type, fee } = params;
 
-    const user = await userModel.findById(creatorId);
+    const user = await userModel.findById(creatorId).lean();
 
     if (!user) {
       throw new BaseError({
@@ -35,7 +36,32 @@ export default {
     }
 
     const ticket = await ticketsModel.create(params);
+    const data = JSON.stringify({
+      pinataOptions: {
+        cidVersion: 1,
+      },
 
-    return ticket;
+      pinataMetadata: {
+        name: 'NFTs',
+        keyvalues: {
+          creator: user.username,
+          creatorOrg: user.orgName,
+          nftName: params.name,
+        },
+      },
+
+      pinataContent: {
+        ...params,
+        creatorId: undefined,
+      },
+    });
+
+    const pinataStuff = await postData({
+      url: `${PINATA_BASE_URL}/pinning/pinJSONToIPFS`,
+      headers: { Authorization: `Bearer ${pinata_jwt}` },
+      data,
+    });
+
+    return { ticket, pinataStuff };
   },
 };
