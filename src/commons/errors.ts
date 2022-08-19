@@ -4,12 +4,19 @@ export class BaseError extends Error {
   message: string;
   status: number;
   name: string;
+  extraDetails: any;
 
-  constructor(params: { status: number; message: string; name?: string }) {
+  constructor(params: {
+    status: number;
+    message: string;
+    name?: string;
+    extraDetails?: any;
+  }) {
     super();
     this.status = params.status;
     this.message = params.message;
     this.name = params.name || 'ClientError';
+    this.extraDetails = params.extraDetails || {};
   }
 }
 
