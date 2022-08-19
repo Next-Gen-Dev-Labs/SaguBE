@@ -59,5 +59,6 @@ export function expressErrorHandler(
     status: 'error',
     type: err.name,
     message,
+    extraDetails: err.extraDetails || {},
   });
 }
