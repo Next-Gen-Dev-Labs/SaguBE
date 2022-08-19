@@ -10,7 +10,7 @@ export default {
    */
 
   async createTicketRecord(params: ITickets) {
-    const { creatorId, type, fee, name } = params;
+    const { creatorId, type, price, name } = params;
 
     const user = await userModel.findById(creatorId).lean();
 
@@ -21,17 +21,17 @@ export default {
       });
     }
 
-    if (fee && type === TicketType.free) {
+    if (price && type === TicketType.free) {
       throw new BaseError({
         status: 400,
-        message: 'Cannot set a fee for a ticket whose type is set to free!',
+        message: 'Cannot set a price for a ticket whose type is set to free!',
       });
     }
 
-    if (!fee && type === TicketType.paid) {
+    if (!price && type === TicketType.paid) {
       throw new BaseError({
         status: 400,
-        message: 'Fee cannot be null for a ticket whose type is set to paid!',
+        message: 'price cannot be null for a ticket whose type is set to paid!',
       });
     }
 
