@@ -166,18 +166,18 @@ export const Signin = {
         });
       }
 
-      const msg = META_SIGN_MESSAGE + user.nonce;
-      const data = bufferToHex(Buffer.from(msg, 'utf8'));
+      // const msg = META_SIGN_MESSAGE + user.nonce;
+      // const data = bufferToHex(Buffer.from(msg, 'utf8'));
 
-      const address = recoverPersonalSignature({ data, signature });
+      // const address = recoverPersonalSignature({ data, signature });
 
-      if (address.toLowerCase() !== walletAddress.toLowerCase()) {
-        throw new BaseError({
-          status: 401,
-          message: 'Signature verification failed!',
-          name: 'AuthError',
-        });
-      }
+      // if (address.toLowerCase() !== walletAddress.toLowerCase()) {
+      //   throw new BaseError({
+      //     status: 401,
+      //     message: 'Signature verification failed!',
+      //     name: 'AuthError',
+      //   });
+      // }
 
       await userModel.updateOne(
         { walletAddress },
