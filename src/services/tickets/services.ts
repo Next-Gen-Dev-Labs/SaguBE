@@ -10,7 +10,7 @@ export default {
    */
 
   async createTicketRecord(params: ITickets) {
-    const { creatorId, type, fee } = params;
+    const { creatorId, type, fee, name } = params;
 
     const user = await userModel.findById(creatorId).lean();
 
@@ -32,6 +32,15 @@ export default {
       throw new BaseError({
         status: 400,
         message: 'Fee cannot be null for a ticket whose type is set to paid!',
+      });
+    }
+
+    const duplicate = await ticketsModel.findOne({ creatorId, name }).lean();
+
+    if (duplicate) {
+      throw new BaseError({
+        status: 400,
+        message: 'Ticket with this creatorId and name already exists!',
       });
     }
 
