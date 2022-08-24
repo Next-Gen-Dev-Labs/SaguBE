@@ -1,6 +1,14 @@
-import { userModel, ticketsModel, ITickets, TicketType } from '../../models';
+import {
+  userModel,
+  ticketsModel,
+  ITickets,
+  TicketType,
+  IMintedTickets,
+  mintedModel,
+} from '../../models';
 import { BaseError, postData } from '../../commons';
 import { PINATA_BASE_URL, pinata_jwt } from '../../config';
+import { Types } from 'mongoose';
 
 export default {
   /**
@@ -63,5 +71,54 @@ export default {
     });
 
     return { ticket, pinataStuff };
+  },
+
+  /**
+   *
+   * Create a record for minted tickets
+   *
+   */
+
+  async storeMintedData(params: IMintedTickets) {
+    const { creatorId, ticketId, transactionHash } = params;
+
+    const user = await userModel.findById(creatorId).lean();
+    if (!user) {
+      throw new BaseError({
+        status: 403,
+        message: 'No user matches this creatorId',
+        extraDetails: { errorField: 'creatorId' },
+      });
+    }
+
+    const ticket = await ticketsModel.findById(ticketId).lean();
+    if (!ticket) {
+      throw new BaseError({
+        status: 403,
+        message: 'No ticket matches this ticketId',
+        extraDetails: { errorField: 'ticketId' },
+      });
+    }
+
+    const duplicate = await mintedModel.findOne({ transactionHash }).lean();
+    if (duplicate) {
+      throw new BaseError({
+        status: 403,
+        message:
+          'Duplicate entry spotted, a record already exists for this transactionHash',
+        extraDetails: { errorField: 'transactionHash' },
+      });
+    }
+
+    if (ticket.creatorId.toString() !== creatorId.toString()) {
+      throw new BaseError({
+        status: 403,
+        message: "Mismatched creatorId in ticket's record",
+        extraDetails: { errorField: 'creatorId' },
+      });
+    }
+
+    const minted = await mintedModel.create(params);
+    return minted;
   },
 };
