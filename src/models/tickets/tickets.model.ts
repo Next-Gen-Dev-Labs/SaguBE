@@ -43,24 +43,6 @@ export interface IMintedTickets {
  *
  */
 
-<<<<<<< HEAD
-const schema = new Schema<ITickets>(
-  {
-    name: { type: String, required: true },
-    desc: { type: String, required: true },
-    fee: { type: Number, required: false, default: 100 },
-    price: { type: Number, required: false, default: null },
-    coverImage: { type: String, required: true },
-    type: {
-      type: String,
-      required: true,
-      enum: Object.values(TicketType),
-    },
-    category: {
-      type: String,
-      required: true,
-      enum: Object.values(TicketCategory),
-=======
 const schema = {
   unminted: new Schema<ITickets>(
     {
@@ -79,7 +61,6 @@ const schema = {
         enum: Object.values(TicketCategory),
       },
       creatorId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
->>>>>>> dev
     },
     { timestamps: true }
   ),

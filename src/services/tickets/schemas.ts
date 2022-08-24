@@ -35,8 +35,6 @@ export default {
 
     category: nativeEnum(TicketCategory),
   }).strict(),
-<<<<<<< HEAD
-=======
 
   /**
    *
@@ -65,5 +63,4 @@ export default {
         'You did not provide a value for transactionHash, transactionHash is  required.',
     }),
   }).strict(),
->>>>>>> dev
 };

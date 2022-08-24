@@ -8,7 +8,6 @@ import {
 } from '../../models';
 import { BaseError, postData } from '../../commons';
 import { PINATA_BASE_URL, pinata_jwt } from '../../config';
-import { Types } from 'mongoose';
 
 export default {
   /**
