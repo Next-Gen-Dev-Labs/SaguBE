@@ -16,4 +16,19 @@ export default {
       next(error);
     }
   },
+
+  /**
+   *
+   * minted Ticket miiddleware
+   *
+   */
+
+  async mintedTicket(req: Request, res: Response, next: NextFunction) {
+    try {
+      await schemas.mintedTicket.parseAsync(req.body);
+      next();
+    } catch (error) {
+      next(error);
+    }
+  },
 };
