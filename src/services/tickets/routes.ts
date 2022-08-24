@@ -16,3 +16,15 @@ ticketRouter.post('/create', [
   middlewares.createTicket,
   controllers.createTicket,
 ]);
+
+/**
+ *
+ * store minted ticket data route
+ *
+ */
+
+ticketRouter.post('/minted-data/store', [
+  verifyToken,
+  middlewares.mintedTicket,
+  controllers.mintedTicket,
+]);

@@ -20,4 +20,27 @@ export default {
       next(error);
     }
   },
+
+  /**
+   *
+   * minted ticket
+   *
+   */
+
+  async mintedTicket(req: Request, res: Response, next: NextFunction) {
+    try {
+      const creatorId = <string>req.decoded?.id;
+      const payload = { ...req.body, creatorId };
+
+      const data = await services.storeMintedData(payload);
+      apiResponse({
+        res,
+        status: 201,
+        message: 'Minted data for ticket stored.',
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

@@ -35,4 +35,35 @@ export default {
 
     category: nativeEnum(TicketCategory),
   }).strict(),
+<<<<<<< HEAD
+=======
+
+  /**
+   *
+   * minted tickets schema
+   *
+   */
+
+  mintedTicket: object({
+    tokenId: string({
+      required_error:
+        'You did not provide a value for tokenId, tokenId is required.',
+    }),
+
+    ticketId: string({
+      required_error:
+        'You did not provide a value for ticketId, ticketId is required.',
+    }),
+
+    creatorWallet: string({
+      required_error:
+        'You did not provide a value for creatorWallet, creatorWallet is required.',
+    }),
+
+    transactionHash: string({
+      required_error:
+        'You did not provide a value for transactionHash, transactionHash is  required.',
+    }),
+  }).strict(),
+>>>>>>> dev
 };

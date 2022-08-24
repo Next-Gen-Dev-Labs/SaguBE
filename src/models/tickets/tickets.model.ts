@@ -29,12 +29,21 @@ export enum TicketCategory {
   fundraiser = 'fundraiser',
 }
 
+export interface IMintedTickets {
+  tokenId: string;
+  creatorId: Types.ObjectId;
+  ticketId: Types.ObjectId;
+  creatorWallet: string;
+  transactionHash: string;
+}
+
 /**
  *
  * Tickets Schema
  *
  */
 
+<<<<<<< HEAD
 const schema = new Schema<ITickets>(
   {
     name: { type: String, required: true },
@@ -51,11 +60,38 @@ const schema = new Schema<ITickets>(
       type: String,
       required: true,
       enum: Object.values(TicketCategory),
+=======
+const schema = {
+  unminted: new Schema<ITickets>(
+    {
+      name: { type: String, required: true },
+      desc: { type: String, required: true },
+      fee: { type: Number, required: true, default: null },
+      coverImage: { type: String, required: true },
+      type: {
+        type: String,
+        required: true,
+        enum: Object.values(TicketType),
+      },
+      category: {
+        type: String,
+        required: true,
+        enum: Object.values(TicketCategory),
+      },
+      creatorId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+>>>>>>> dev
     },
+    { timestamps: true }
+  ),
+
+  minted: new Schema<IMintedTickets>({
+    tokenId: { type: String, required: true },
     creatorId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  },
-  { timestamps: true }
-);
+    ticketId: { type: Schema.Types.ObjectId, ref: 'Ticket', required: true },
+    creatorWallet: { type: String, required: true },
+    transactionHash: { type: String, required: true },
+  }),
+};
 
 /**
  *
@@ -63,4 +99,5 @@ const schema = new Schema<ITickets>(
  *
  */
 
-export const ticketsModel = model('Ticket', schema);
+export const ticketsModel = model('Ticket', schema.unminted);
+export const mintedModel = model('MintedTicket', schema.minted);
