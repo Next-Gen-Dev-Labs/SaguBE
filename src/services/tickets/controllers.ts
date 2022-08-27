@@ -23,6 +23,23 @@ export default {
 
   /**
    *
+   * async getTicketByName
+   *
+   */
+
+  async getTicketByName(req: Request, res: Response, next: NextFunction) {
+    try {
+      const name = <string>req.params.name;
+      const data = await services.getTicketByName({ name });
+
+      apiResponse({ res, status: 200, message: 'Ticket', data });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  /**
+   *
    * store minted ticket
    *
    */
