@@ -19,6 +19,14 @@ ticketRouter.post('/create', [
 
 /**
  *
+ * get ticket by its name
+ *
+ */
+
+ticketRouter.get('/get/:name', controllers.getTicketByName);
+
+/**
+ *
  * store minted ticket data route
  *
  */
