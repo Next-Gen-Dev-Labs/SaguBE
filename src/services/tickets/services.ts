@@ -162,7 +162,9 @@ export default {
       limit: <string>limit,
     });
 
+    const totalNumOfTickets = await mintedModel.count();
     const tickets = await mintedModel.find({}, {}, { ...paginators });
-    return { tickets };
+
+    return { tickets, totalNumOfTickets };
   },
 };
