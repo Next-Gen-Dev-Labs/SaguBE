@@ -191,6 +191,9 @@ export function refinePaginators(params: { skip: string; limit: string }) {
       status: 400,
       message:
         'Invalid value received for limit. limit, if present, must be an integer',
+      extraDetails: {
+        errorField: 'limit',
+      },
     });
   }
 
@@ -199,6 +202,9 @@ export function refinePaginators(params: { skip: string; limit: string }) {
       status: 400,
       message:
         'Invalid value received for skip. skip, if present, must be an integer',
+      extraDetails: {
+        errorField: 'skip',
+      },
     });
   }
 
