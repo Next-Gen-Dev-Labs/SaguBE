@@ -83,6 +83,30 @@ export default {
 
   /**
    *
+   * get ticket by ticket name
+   *
+   */
+
+  async getTicketByName(params: { name: string }) {
+    const { name } = params;
+
+    const ticket = await ticketsModel.findOne({ name });
+
+    if (!ticket) {
+      throw new BaseError({
+        status: 404,
+        message: 'Did not find a ticket with the provided name',
+        extraDetails: {
+          errorField: 'name',
+        },
+      });
+    }
+
+    return { ticket };
+  },
+
+  /**
+   *
    * Create a record for minted tickets
    *
    */
