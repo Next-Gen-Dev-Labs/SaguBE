@@ -65,4 +65,26 @@ export default {
       next(error);
     }
   },
+
+  /**
+   *
+   * List minted ticket data
+   *
+   */
+
+  async listMintedTickets(req: Request, res: Response, next: NextFunction) {
+    try {
+      const payload = req.query;
+      const data = await services.listMintedTickets(payload);
+
+      apiResponse({
+        res,
+        status: 200,
+        message: 'tickets data',
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
