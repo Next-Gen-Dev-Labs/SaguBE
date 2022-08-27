@@ -36,3 +36,11 @@ ticketRouter.post('/minted-data/store', [
  */
 
 ticketRouter.get('/get/minted-data', controllers.getMintedTickets);
+
+/**
+ *
+ * list tickets minted data
+ *
+ */
+
+ticketRouter.get('/list/minted-data', controllers.listMintedTickets);
