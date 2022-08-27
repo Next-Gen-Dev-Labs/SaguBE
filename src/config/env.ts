@@ -12,7 +12,7 @@ export const port = +(<string>(
 ));
 
 export const redis_url = <string>(
-  (env === 'production' ? process.env.REDIS_PROD : process.env.REDIS_DEV)
+  (env === 'production' ? process.env.REDIS_URL : process.env.REDIS_DEV)
 );
 
 export const morgan_mode = <string>(env === 'production' ? 'combined' : 'dev');
