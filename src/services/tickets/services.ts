@@ -88,7 +88,7 @@ export default {
    */
 
   async storeMintedData(params: IMintedTickets) {
-    const { creatorId, ticketId, transactionHash } = params;
+    const { creatorId, ticketId } = params;
 
     const user = await userModel.findById(creatorId).lean();
     if (!user) {
@@ -108,13 +108,13 @@ export default {
       });
     }
 
-    const duplicate = await mintedModel.findOne({ transactionHash }).lean();
+    const duplicate = await mintedModel.findOne({ ticketId }).lean();
     if (duplicate) {
       throw new BaseError({
         status: 403,
         message:
-          'Duplicate entry spotted, a record already exists for this transactionHash',
-        extraDetails: { errorField: 'transactionHash' },
+          'Duplicate entry spotted, a record already exists for this ticketId',
+        extraDetails: { errorField: 'ticketId' },
       });
     }
 
@@ -128,5 +128,32 @@ export default {
 
     const minted = await mintedModel.create(params);
     return minted;
+  },
+
+  /**
+   *
+   * Get minted ticket by user
+   *
+   */
+
+  async getMintedTicket(params: { username: string }) {
+    const { username } = params;
+
+    const user = await userModel.findOne({ username });
+
+    if (!user) {
+      throw new BaseError({
+        status: 403,
+        message: 'Operation forbidden',
+      });
+    }
+
+    const tickets = await mintedModel
+      .find({
+        creatorId: user.id,
+      })
+      .lean();
+
+    return { tickets };
   },
 };

@@ -28,3 +28,11 @@ ticketRouter.post('/minted-data/store', [
   middlewares.mintedTicket,
   controllers.mintedTicket,
 ]);
+
+/**
+ *
+ * get ticket minted data by user
+ *
+ */
+
+ticketRouter.get('/get/minted-data', controllers.getMintedTickets);

@@ -23,7 +23,7 @@ export default {
 
   /**
    *
-   * minted ticket
+   * store minted ticket
    *
    */
 
@@ -37,6 +37,28 @@ export default {
         res,
         status: 201,
         message: 'Minted data for ticket stored.',
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  /**
+   *
+   * Get minted tickets by user
+   *
+   */
+
+  async getMintedTickets(req: Request, res: Response, next: NextFunction) {
+    try {
+      const username = <string>req.query.username;
+      const data = await services.getMintedTicket({ username });
+
+      apiResponse({
+        res,
+        status: 200,
+        message: 'tickets data for this user',
         data,
       });
     } catch (error) {
