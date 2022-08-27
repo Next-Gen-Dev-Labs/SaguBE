@@ -6,7 +6,7 @@ import {
   IMintedTickets,
   mintedModel,
 } from '../../models';
-import { BaseError, postData } from '../../commons';
+import { BaseError, postData, refinePaginators } from '../../commons';
 import { PINATA_BASE_URL, pinata_jwt } from '../../config';
 import { Types } from 'mongoose';
 
@@ -146,6 +146,23 @@ export default {
       })
       .lean();
 
+    return { tickets };
+  },
+
+  /**
+   *
+   * list all minted tickets
+   *
+   */
+
+  async listMintedTickets(params: { skip?: string; limit?: string }) {
+    const { skip, limit } = params;
+    const paginators = refinePaginators({
+      skip: <string>skip,
+      limit: <string>limit,
+    });
+
+    const tickets = await mintedModel.find({}, {}, { ...paginators });
     return { tickets };
   },
 };
