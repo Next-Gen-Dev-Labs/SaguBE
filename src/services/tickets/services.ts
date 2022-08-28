@@ -51,10 +51,7 @@ export default {
       });
     }
 
-    const ticket = await ticketsModel.create({
-      ...params,
-      name: name.toLowerCase().trim(),
-    });
+    const ticket = await ticketsModel.create(params);
     const data = JSON.stringify({
       pinataOptions: {
         cidVersion: 1,
@@ -94,7 +91,7 @@ export default {
     const { name } = params;
 
     const ticket = await ticketsModel.findOne({
-      name: name.toLowerCase().trim(),
+      name,
     });
 
     if (!ticket) {
