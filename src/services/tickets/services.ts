@@ -181,6 +181,7 @@ export default {
       .find({
         creatorId: user.id,
       })
+      .populate<{ ticket: ITickets }>('ticketId')
       .lean();
 
     return { tickets };
@@ -200,7 +201,10 @@ export default {
     });
 
     const totalNumOfTickets = await mintedModel.count();
-    const tickets = await mintedModel.find({}, {}, { ...paginators });
+    const tickets = await mintedModel
+      .find({}, {}, { ...paginators })
+      .populate<{ ticket: ITickets }>('ticketId')
+      .lean();
 
     return { tickets, totalNumOfTickets };
   },
