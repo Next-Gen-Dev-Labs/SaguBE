@@ -117,7 +117,7 @@ export default {
    */
 
   async storeMintedData(params: IMintedTickets) {
-    const { creatorId, ticketId } = params;
+    const { creatorId, ticketId, transactionHash } = params;
 
     const user = await userModel.findById(creatorId).lean();
     if (!user) {
@@ -137,13 +137,13 @@ export default {
       });
     }
 
-    const duplicate = await mintedModel.findOne({ ticketId }).lean();
+    const duplicate = await mintedModel.findOne({ transactionHash }).lean();
     if (duplicate) {
       throw new BaseError({
         status: 403,
         message:
-          'Duplicate entry spotted, a record already exists for this ticketId',
-        extraDetails: { errorField: 'ticketId' },
+          'Duplicate entry spotted, a record already exists for this transactionHash',
+        extraDetails: { errorField: 'transactionHash' },
       });
     }
 
