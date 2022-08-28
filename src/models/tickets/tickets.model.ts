@@ -30,7 +30,7 @@ export enum TicketCategory {
 }
 
 export interface IMintedTickets {
-  tokenId: string;
+  tokenId: Types.Array<string>;
   creatorId: Types.ObjectId;
   ticketId: Types.ObjectId;
   creatorWallet: string;
@@ -66,7 +66,7 @@ const schema = {
   ),
 
   minted: new Schema<IMintedTickets>({
-    tokenId: { type: String, required: true },
+    tokenId: { type: [String], required: true },
     creatorId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     ticketId: { type: Schema.Types.ObjectId, ref: 'Ticket', required: true },
     creatorWallet: { type: String, required: true },

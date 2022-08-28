@@ -46,7 +46,7 @@ export default {
     tokenId: string({
       required_error:
         'You did not provide a value for tokenId, tokenId is required.',
-    }),
+    }).array(),
 
     ticketId: string({
       required_error:
