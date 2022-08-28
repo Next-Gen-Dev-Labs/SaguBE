@@ -23,7 +23,7 @@ ticketRouter.post('/create', [
  *
  */
 
-ticketRouter.get('/get/:name', controllers.getTicketByName);
+ticketRouter.get('/get/ticket/:name', controllers.getTicketByName);
 
 /**
  *
