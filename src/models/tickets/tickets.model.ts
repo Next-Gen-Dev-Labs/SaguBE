@@ -37,6 +37,12 @@ export interface IMintedTickets {
   transactionHash: string;
 }
 
+export interface IBoughtTickets {
+  ticket: Types.ObjectId;
+  price: number;
+  buyer: Types.ObjectId;
+}
+
 /**
  *
  * Tickets Schema
@@ -72,6 +78,12 @@ const schema = {
     creatorWallet: { type: String, required: true },
     transactionHash: { type: String, required: true },
   }),
+
+  bought: new Schema<IBoughtTickets>({
+    price: { type: Number, required: true },
+    buyer: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    ticket: { type: Schema.Types.ObjectId, ref: 'Ticket', required: true },
+  }),
 };
 
 /**
@@ -82,3 +94,4 @@ const schema = {
 
 export const ticketsModel = model('Ticket', schema.unminted);
 export const mintedModel = model('MintedTicket', schema.minted);
+export const boughtModel = model('BoughtTicket', schema.bought);
