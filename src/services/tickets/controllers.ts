@@ -122,4 +122,30 @@ export default {
       next(error);
     }
   },
+
+  /**
+   *
+   * get bought minted tickets by user
+   *
+   */
+
+  async getBoughtMintedTickets(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const username = <string>req.query.username;
+      const data = await services.getBoughtMintedTicket({ username });
+
+      apiResponse({
+        res,
+        status: 200,
+        message: 'Bought minted tickets by this user',
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
