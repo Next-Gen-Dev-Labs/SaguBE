@@ -5,6 +5,7 @@ import {
   TicketType,
   IMintedTickets,
   mintedModel,
+  boughtModel,
 } from '../../models';
 import { BaseError, postData, refinePaginators } from '../../commons';
 import { PINATA_BASE_URL, pinata_jwt } from '../../config';
@@ -204,5 +205,40 @@ export default {
       .lean();
 
     return { tickets, totalNumOfTickets };
+  },
+
+  /**
+   *
+   * buy a minted ticket
+   *
+   */
+
+  async buyMintedTicket(params: {
+    price: number;
+    buyer: string;
+    ticket: string;
+  }) {
+    const { buyer, price, ticket } = params;
+
+    const user = await userModel.findById(buyer).lean();
+    if (!user) {
+      throw new BaseError({
+        status: 403,
+        message: 'No user matches this buyer',
+        extraDetails: { errorField: 'buyer' },
+      });
+    }
+
+    const mintedTicket = await mintedModel.findOne({ ticketId: ticket });
+    if (!mintedTicket) {
+      throw new BaseError({
+        status: 400,
+        message: 'No minted ticket found for this ticket',
+        extraDetails: { errorField: 'ticket' },
+      });
+    }
+
+    const boughtTicket = await boughtModel.create(params);
+    return boughtTicket;
   },
 };
