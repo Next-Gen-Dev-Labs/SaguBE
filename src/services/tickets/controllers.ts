@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { serialize } from 'v8';
 import { apiResponse } from '../../commons';
 import services from './services';
 
@@ -100,6 +101,23 @@ export default {
         message: 'tickets data',
         data,
       });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  /**
+   *
+   * buy minted ticket
+   *
+   */
+
+  async buyMintedTicket(req: Request, res: Response, next: NextFunction) {
+    try {
+      const payload = { ...req.body, buyer: <string>req.decoded?.id };
+      const data = await services.buyMintedTicket(payload);
+
+      apiResponse({ res, status: 201, message: 'Ticket bought', data });
     } catch (error) {
       next(error);
     }
