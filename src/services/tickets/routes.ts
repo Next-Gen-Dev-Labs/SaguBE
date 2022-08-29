@@ -52,4 +52,16 @@ ticketRouter.get('/get/minted-data', controllers.getMintedTickets);
  */
 
 ticketRouter.get('/list/minted-data', controllers.listMintedTickets);
-//
+
+/**
+ *
+ * buy minted ticket
+ *
+ */
+
+ticketRouter.post(
+  '/buy/minted-ticket',
+  verifyToken,
+  middlewares.buyMintedTicket,
+  controllers.buyMintedTicket
+);
