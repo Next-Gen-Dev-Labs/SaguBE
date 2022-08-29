@@ -65,3 +65,14 @@ ticketRouter.post(
   middlewares.buyMintedTicket,
   controllers.buyMintedTicket
 );
+
+/**
+ *
+ *  get bought minted tickets by user
+ *
+ */
+
+ticketRouter.get(
+  '/get/bought/minted-ticket',
+  controllers.getBoughtMintedTickets
+);
