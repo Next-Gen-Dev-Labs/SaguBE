@@ -63,4 +63,22 @@ export default {
         'You did not provide a value for transactionHash, transactionHash is  required.',
     }),
   }).strict(),
+
+  /**
+   *
+   * buy minted tickets schema
+   *
+   */
+
+  buyMintedTicket: object({
+    price: number({
+      required_error:
+        'You did not provide a value for price, price is required',
+    }).nonnegative({ message: 'price cannot be negative' }),
+
+    ticket: string({
+      required_error:
+        'You did not provide a value for ticket, ticket is required',
+    }),
+  }),
 };
