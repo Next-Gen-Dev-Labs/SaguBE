@@ -229,7 +229,7 @@ export default {
       });
     }
 
-    const mintedTicket = await mintedModel.findOne({ ticketId: ticket });
+    const mintedTicket = await mintedModel.findById(ticket);
     if (!mintedTicket) {
       throw new BaseError({
         status: 400,
@@ -240,5 +240,33 @@ export default {
 
     const boughtTicket = await boughtModel.create(params);
     return boughtTicket;
+  },
+
+  /**
+   *
+   * get bought minted ticket by user
+   *
+   */
+
+  async getBoughtMintedTicket(params: { username: string }) {
+    const { username } = params;
+
+    const user = await userModel.findOne({ username });
+
+    if (!user) {
+      throw new BaseError({
+        status: 403,
+        message: 'Operation forbidden',
+      });
+    }
+
+    const tickets = await boughtModel
+      .find({
+        creatorId: user.id,
+      })
+      .populate<{ ticket: IMintedTickets }>('ticket')
+      .lean();
+
+    return { tickets };
   },
 };
