@@ -31,4 +31,19 @@ export default {
       next(error);
     }
   },
+
+  /**
+   *
+   * buy minted ticket
+   *
+   */
+
+  async buyMintedTicket(req: Request, res: Response, next: NextFunction) {
+    try {
+      await schemas.buyMintedTicket.parseAsync(req.body);
+      next();
+    } catch (error) {
+      next(error);
+    }
+  },
 };
