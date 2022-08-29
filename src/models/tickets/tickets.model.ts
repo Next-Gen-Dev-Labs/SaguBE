@@ -82,7 +82,11 @@ const schema = {
   bought: new Schema<IBoughtTickets>({
     price: { type: Number, required: true },
     buyer: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    ticket: { type: Schema.Types.ObjectId, ref: 'Ticket', required: true },
+    ticket: {
+      type: Schema.Types.ObjectId,
+      ref: 'MintedTicket',
+      required: true,
+    },
   }),
 };
 
